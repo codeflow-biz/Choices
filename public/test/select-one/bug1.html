@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Ignore these -->
+  <link rel="stylesheet" href="../../assets/styles/base.min.css" />
+  <!-- End ignore these -->
+
+  <!-- Choices includes -->
+  <link rel="stylesheet" href="../../assets/styles/choices.min.css" />
+  <script src="../../assets/scripts/choices.min.js"></script>
+  <!-- End Choices includes -->
+</head>
+<body>
+<div class="container">
+  <div class="section">
+    <label>Buggy init on disabled select</label>
+    <select name="test1" id="test1" disabled>
+      <option value="1">Option A</option>
+      <option value="2" disabled>Option B</option>
+      <option value="3">Option C</option>
+    </select>
+
+    <label>Workaround init on disabled select</label>
+    <select name="test2" id="test2" disabled>
+      <option value="1">Option A</option>
+      <option value="2" disabled>Option B</option>
+      <option value="3">Option C</option>
+    </select>
+
+    <button type="button" onclick="enableBoth()">Enable</button>
+    <button type="button" onclick="disableBoth()">Disable</button>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  let choices1, choices2;
+
+  function enableBoth() {
+    choices1.enable();
+    choices2.enable();
+  }
+  function disableBoth() {
+    choices1.disable();
+    choices2.disable();
+  }
+
+  (function() {
+    const test1Select = document.getElementById('test1');
+    choices1 = new Choices(test1Select);
+
+    const test2Select = document.getElementById('test2');
+    test2Select.disabled = false;
+    choices2 = new Choices(test2Select);
+    choices2.disable();
+
+  })();
+</script>
+
+</body>
+</html>

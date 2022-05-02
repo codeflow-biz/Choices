@@ -287,7 +287,7 @@ class Choices implements Choices {
           value: option.value,
           label: option.innerHTML,
           selected: !!option.selected,
-          disabled: option.disabled || option.parentNode.disabled,
+          disabled: option.disabled /* || option.parentNode.disabled */,
           placeholder:
             option.value === '' || option.hasAttribute('placeholder'),
           customProperties: option.dataset['custom-properties'],
