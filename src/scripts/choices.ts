@@ -290,7 +290,7 @@ class Choices implements Choices {
           disabled: option.disabled /* || option.parentNode.disabled */,
           placeholder:
             option.value === '' || option.hasAttribute('placeholder'),
-          customProperties: option.dataset['custom-properties'],
+          customProperties: option.dataset['customProperties'],
         });
       });
     }
