@@ -401,7 +401,7 @@ function () {
           /* || option.parentNode.disabled */
           ,
           placeholder: option.value === '' || option.hasAttribute('placeholder'),
-          customProperties: option.dataset['custom-properties']
+          customProperties: option.dataset['customProperties']
         });
       });
     }
@@ -5045,9 +5045,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": function() { return /* binding */ Fuse; }
 /* harmony export */ });
 /**
- * Fuse.js v6.5.3 - Lightweight fuzzy-search (http://fusejs.io)
+ * Fuse.js v6.6.2 - Lightweight fuzzy-search (http://fusejs.io)
  *
- * Copyright (c) 2021 Kiro Risk (http://kiro.me)
+ * Copyright (c) 2022 Kiro Risk (http://kiro.me)
  * All Rights Reserved. Apache Software License 2.0
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -5174,6 +5174,7 @@ function createKey(key) {
   let id = null;
   let src = null;
   let weight = 1;
+  let getFn = null;
 
   if (isString(key) || isArray(key)) {
     src = key;
@@ -5197,9 +5198,10 @@ function createKey(key) {
 
     path = createKeyPath(name);
     id = createKeyId(name);
+    getFn = key.getFn;
   }
 
-  return { path, id, weight, src }
+  return { path, id, weight, src, getFn }
 }
 
 function createKeyPath(key) {
@@ -5442,8 +5444,7 @@ class FuseIndex {
 
     // Iterate over every key (i.e, path), and fetch the value at that key
     this.keys.forEach((key, keyIndex) => {
-      // console.log(key)
-      let value = this.getFn(doc, key.path);
+      let value = key.getFn ? key.getFn(doc) : this.getFn(doc, key.path);
 
       if (!isDefined(value)) {
         return
@@ -5478,7 +5479,7 @@ class FuseIndex {
           } else ;
         }
         record.$[keyIndex] = subRecords;
-      } else if (!isBlank(value)) {
+      } else if (isString(value) && !isBlank(value)) {
         let subRecord = {
           v: value,
           n: this.norm.get(value)
@@ -6173,7 +6174,7 @@ const searchers = [
 const searchersLen = searchers.length;
 
 // Regex to split by spaces, but keep anything in quotes together
-const SPACE_RE = / +(?=([^\"]*\"[^\"]*\")*[^\"]*$)/;
+const SPACE_RE = / +(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/;
 const OR_TOKEN = '|';
 
 // Return a 2D array representation of the query, for simpler parsing.
@@ -6807,7 +6808,7 @@ class Fuse {
   }
 }
 
-Fuse.version = '6.5.3';
+Fuse.version = '6.6.2';
 Fuse.createIndex = createIndex;
 Fuse.parseIndex = parseIndex;
 Fuse.config = Config;
@@ -6838,7 +6839,8 @@ __webpack_require__.d(__webpack_exports__, {
   "bindActionCreators": function() { return /* binding */ bindActionCreators; },
   "combineReducers": function() { return /* binding */ combineReducers; },
   "compose": function() { return /* binding */ compose; },
-  "createStore": function() { return /* binding */ createStore; }
+  "createStore": function() { return /* binding */ createStore; },
+  "legacy_createStore": function() { return /* binding */ legacy_createStore; }
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
@@ -6994,29 +6996,29 @@ function kindOf(val) {
 }
 
 /**
- * Creates a Redux store that holds the state tree.
- * The only way to change the data in the store is to call `dispatch()` on it.
+ * @deprecated
  *
- * There should only be a single store in your app. To specify how different
- * parts of the state tree respond to actions, you may combine several reducers
- * into a single reducer function by using `combineReducers`.
+ * **We recommend using the `configureStore` method
+ * of the `@reduxjs/toolkit` package**, which replaces `createStore`.
  *
- * @param {Function} reducer A function that returns the next state tree, given
- * the current state tree and the action to handle.
+ * Redux Toolkit is our recommended approach for writing Redux logic today,
+ * including store setup, reducers, data fetching, and more.
  *
- * @param {any} [preloadedState] The initial state. You may optionally specify it
- * to hydrate the state from the server in universal apps, or to restore a
- * previously serialized user session.
- * If you use `combineReducers` to produce the root reducer function, this must be
- * an object with the same shape as `combineReducers` keys.
+ * **For more details, please read this Redux docs page:**
+ * **https://redux.js.org/introduction/why-rtk-is-redux-today**
  *
- * @param {Function} [enhancer] The store enhancer. You may optionally specify it
- * to enhance the store with third-party capabilities such as middleware,
- * time travel, persistence, etc. The only store enhancer that ships with Redux
- * is `applyMiddleware()`.
+ * `configureStore` from Redux Toolkit is an improved version of `createStore` that
+ * simplifies setup and helps avoid common bugs.
  *
- * @returns {Store} A Redux store that lets you read the state, dispatch actions
- * and subscribe to changes.
+ * You should not be using the `redux` core package by itself today, except for learning purposes.
+ * The `createStore` method from the core `redux` package will not be removed, but we encourage
+ * all users to migrate to using Redux Toolkit for all Redux code.
+ *
+ * If you want to use `createStore` without this visual deprecation warning, use
+ * the `legacy_createStore` import instead:
+ *
+ * `import { legacy_createStore as createStore} from 'redux'`
+ *
  */
 
 function createStore(reducer, preloadedState, enhancer) {
@@ -7266,6 +7268,38 @@ function createStore(reducer, preloadedState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[$$observable] = observable, _ref2;
 }
+/**
+ * Creates a Redux store that holds the state tree.
+ *
+ * **We recommend using `configureStore` from the
+ * `@reduxjs/toolkit` package**, which replaces `createStore`:
+ * **https://redux.js.org/introduction/why-rtk-is-redux-today**
+ *
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ *
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
+ *
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
+ *
+ * @param {any} [preloadedState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
+ *
+ * @param {Function} [enhancer] The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
+ *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
+ */
+
+var legacy_createStore = createStore;
 
 /**
  * Prints a warning in the console if it exists.

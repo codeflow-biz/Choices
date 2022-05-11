@@ -109,8 +109,8 @@
   },
   "dependencies": {
     "deepmerge": "^4.2.2",
-    "fuse.js": "^6.5.3",
-    "redux": "^4.1.2"
+    "fuse.js": "^6.6.2",
+    "redux": "^4.2.0"
   },
   "npmName": "choices.js",
   "npmFileMap": [
