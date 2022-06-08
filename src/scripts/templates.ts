@@ -327,9 +327,15 @@ const templates = {
     customProperties,
     active,
     disabled,
+    dataset,
   }: Item): HTMLOptionElement {
     const opt = new Option(label, value, false, active);
 
+    if (dataset) {
+      Object.keys(dataset).forEach((key) => {
+        opt.dataset[key] = dataset[key];
+      });
+    }
     if (customProperties) {
       opt.dataset.customProperties = `${customProperties}`;
     }

@@ -283,6 +283,14 @@ class Choices implements Choices {
     // Create array of choices from option elements
     if ((this.passedElement as WrappedSelect).options) {
       (this.passedElement as WrappedSelect).options.forEach((option) => {
+        const newDataset = {};
+        if (this.config.preserveOptionDataset && option.dataset) {
+          Object.keys(option.dataset).forEach((key) => {
+            if (key !== 'customProperties') {
+              newDataset[key] = option.dataset[key];
+            }
+          });
+        }
         this._presetChoices.push({
           value: option.value,
           label: option.innerHTML,
@@ -291,8 +299,9 @@ class Choices implements Choices {
           placeholder:
             option.value === '' || option.hasAttribute('placeholder'),
           customProperties: option.dataset['customProperties'],
+          dataset: newDataset,
         });
-      });
+      }, this);
     }
 
     this._render = this._render.bind(this);
@@ -724,6 +733,7 @@ class Choices implements Choices {
           isDisabled: !!choice.disabled,
           placeholder: !!choice.placeholder,
           customProperties: choice.customProperties,
+          dataset: choice.dataset,
         });
       }
     });
@@ -1143,6 +1153,7 @@ class Choices implements Choices {
           customProperties: choice.customProperties,
           placeholder: choice.placeholder,
           keyCode: choice.keyCode,
+          dataset: choice.dataset,
         });
 
         this._triggerChange(choice.value);
@@ -1939,6 +1950,7 @@ class Choices implements Choices {
     customProperties = {},
     placeholder = false,
     keyCode = -1,
+    dataset = {},
   }: {
     value: string;
     label?: string | null;
@@ -1947,6 +1959,7 @@ class Choices implements Choices {
     customProperties?: object;
     placeholder?: boolean;
     keyCode?: number;
+    dataset?: object;
   }): void {
     let passedValue = typeof value === 'string' ? value.trim() : value;
 
@@ -1976,6 +1989,7 @@ class Choices implements Choices {
         customProperties,
         placeholder,
         keyCode,
+        dataset,
       }),
     );
 
@@ -1991,6 +2005,7 @@ class Choices implements Choices {
       customProperties,
       groupValue: group && group.value ? group.value : null,
       keyCode,
+      dataset,
     });
   }
 
@@ -2022,6 +2037,7 @@ class Choices implements Choices {
     customProperties = {},
     placeholder = false,
     keyCode = -1,
+    dataset = {},
   }: {
     value: string;
     label?: string | null;
@@ -2031,6 +2047,7 @@ class Choices implements Choices {
     customProperties?: Record<string, any>;
     placeholder?: boolean;
     keyCode?: number;
+    dataset?: Record<string, any>;
   }): void {
     if (typeof value === 'undefined' || value === null) {
       return;
@@ -2053,6 +2070,7 @@ class Choices implements Choices {
         customProperties,
         placeholder,
         keyCode,
+        dataset,
       }),
     );
 
@@ -2064,6 +2082,7 @@ class Choices implements Choices {
         customProperties,
         placeholder,
         keyCode,
+        dataset,
       });
     }
   }
@@ -2097,6 +2116,7 @@ class Choices implements Choices {
           groupId,
           customProperties: choice.customProperties,
           placeholder: choice.placeholder,
+          dataset: choice.dataset,
         });
       };
 
@@ -2299,6 +2319,7 @@ class Choices implements Choices {
             isDisabled: !!isDisabled,
             placeholder: !!placeholder,
             customProperties,
+            dataset: choice.dataset,
           });
         }
       } else {
@@ -2309,6 +2330,7 @@ class Choices implements Choices {
           isDisabled: !!choice.disabled,
           placeholder: !!choice.placeholder,
           customProperties,
+          dataset: choice.dataset,
         });
       }
     });
@@ -2323,6 +2345,7 @@ class Choices implements Choices {
           choiceId: item.id,
           customProperties: item.customProperties,
           placeholder: item.placeholder,
+          dataset: item.dataset,
         });
       }
 
@@ -2352,6 +2375,7 @@ class Choices implements Choices {
             isDisabled: false,
             customProperties: item.customProperties,
             placeholder: item.placeholder,
+            dataset: item.dataset,
           });
         } else {
           this._addItem({
@@ -2360,6 +2384,7 @@ class Choices implements Choices {
             choiceId: item.id,
             customProperties: item.customProperties,
             placeholder: item.placeholder,
+            dataset: item.dataset,
           });
         }
       },
@@ -2398,6 +2423,7 @@ class Choices implements Choices {
         customProperties: foundChoice.customProperties,
         placeholder: foundChoice.placeholder,
         keyCode: foundChoice.keyCode,
+        dataset: foundChoice.dataset,
       });
     }
   }

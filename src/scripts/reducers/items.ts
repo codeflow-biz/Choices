@@ -35,6 +35,7 @@ export default function items(
           customProperties: addItemAction.customProperties,
           placeholder: addItemAction.placeholder || false,
           keyCode: null,
+          dataset: addItemAction.dataset,
         },
       ];
 

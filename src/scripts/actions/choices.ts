@@ -12,6 +12,7 @@ export interface AddChoiceAction {
   customProperties: object;
   placeholder: boolean;
   keyCode: number;
+  dataset: object;
 }
 
 export interface Result<T> {
@@ -43,6 +44,7 @@ export const addChoice = ({
   customProperties,
   placeholder,
   keyCode,
+  dataset,
 }): AddChoiceAction => ({
   type: ACTION_TYPES.ADD_CHOICE,
   value,
@@ -54,6 +56,7 @@ export const addChoice = ({
   customProperties,
   placeholder,
   keyCode,
+  dataset,
 });
 
 export const filterChoices = (

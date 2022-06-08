@@ -37,6 +37,7 @@ export default function choices(
         score: 9999,
         customProperties: addChoiceAction.customProperties,
         placeholder: addChoiceAction.placeholder || false,
+        dataset: addChoiceAction.dataset,
       };
 
       /*
