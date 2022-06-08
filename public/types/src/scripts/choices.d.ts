@@ -177,7 +177,7 @@ declare class Choices implements Choices {
     _onBlur({ target }: Pick<FocusEvent, 'target'>): void;
     _onFormReset(): void;
     _highlightChoice(el?: HTMLElement | null): void;
-    _addItem({ value, label, choiceId, groupId, customProperties, placeholder, keyCode, }: {
+    _addItem({ value, label, choiceId, groupId, customProperties, placeholder, keyCode, dataset, }: {
         value: string;
         label?: string | null;
         choiceId?: number;
@@ -185,9 +185,10 @@ declare class Choices implements Choices {
         customProperties?: object;
         placeholder?: boolean;
         keyCode?: number;
+        dataset?: object;
     }): void;
     _removeItem(item: Item): void;
-    _addChoice({ value, label, isSelected, isDisabled, groupId, customProperties, placeholder, keyCode, }: {
+    _addChoice({ value, label, isSelected, isDisabled, groupId, customProperties, placeholder, keyCode, dataset, }: {
         value: string;
         label?: string | null;
         isSelected?: boolean;
@@ -196,6 +197,7 @@ declare class Choices implements Choices {
         customProperties?: Record<string, any>;
         placeholder?: boolean;
         keyCode?: number;
+        dataset?: Record<string, any>;
     }): void;
     _addGroup({ group, id, valueKey, labelKey }: {
         group: any;

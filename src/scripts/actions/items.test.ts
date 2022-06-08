@@ -12,6 +12,7 @@ describe('actions/items', () => {
       const customProperties = { test: true };
       const placeholder = true;
       const keyCode = 10;
+      const dataset = { id: 1 };
 
       const expectedAction: actions.AddItemAction = {
         type: 'ADD_ITEM',
@@ -23,6 +24,7 @@ describe('actions/items', () => {
         customProperties,
         placeholder,
         keyCode,
+        dataset,
       };
 
       expect(
@@ -35,6 +37,7 @@ describe('actions/items', () => {
           customProperties,
           placeholder,
           keyCode,
+          dataset,
         }),
       ).to.eql(expectedAction);
     });

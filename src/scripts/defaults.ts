@@ -44,6 +44,7 @@ export const DEFAULT_CONFIG: Options = {
   editItems: false,
   allowHTML: true,
   decodeHTMLSpecialChars: true,
+  preserveOptionDataset: false,
   duplicateItemsAllowed: true,
   delimiter: ',',
   paste: true,

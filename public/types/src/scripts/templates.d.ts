@@ -19,7 +19,7 @@ declare const templates: {
     input({ classNames: { input, inputCloned } }: TemplateOptions, placeholderValue: string): HTMLInputElement;
     dropdown({ classNames: { list, listDropdown }, }: TemplateOptions): HTMLDivElement;
     notice({ allowHTML, classNames: { item, itemChoice, noResults, noChoices }, }: TemplateOptions, innerText: string, type?: 'no-choices' | 'no-results' | ''): HTMLDivElement;
-    option({ label, value, customProperties, active, disabled, }: Item): HTMLOptionElement;
+    option({ label, value, customProperties, active, disabled, dataset, }: Item): HTMLOptionElement;
 };
 export default templates;
 //# sourceMappingURL=templates.d.ts.map

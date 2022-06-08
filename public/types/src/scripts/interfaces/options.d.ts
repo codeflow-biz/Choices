@@ -170,6 +170,16 @@ export interface Options {
      */
     decodeHTMLSpecialChars: boolean;
     /**
+     * Whether custom data- attributes on HTMLOptionElements should be rendered when they are active.
+     * If `false`, custom data- attributes will be removed.
+     * If `true`, custom data- attributes will be rendered in the DOM.
+     *
+     * **Input types affected:** select-one, select-multiple
+     *
+     * @default false
+     */
+    preserveOptionDataset: boolean;
+    /**
      * Whether each inputted/chosen item should be unique.
      *
      * **Input types affected:** text, select-multiple

@@ -12,5 +12,6 @@ export interface Choice {
     value: any;
     score?: number;
     choices?: Choice[];
+    dataset?: Record<string, string>;
 }
 //# sourceMappingURL=choice.d.ts.map

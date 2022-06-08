@@ -34,7 +34,8 @@ var addChoice = function (_a) {
       elementId = _a.elementId,
       customProperties = _a.customProperties,
       placeholder = _a.placeholder,
-      keyCode = _a.keyCode;
+      keyCode = _a.keyCode,
+      dataset = _a.dataset;
   return {
     type: constants_1.ACTION_TYPES.ADD_CHOICE,
     value: value,
@@ -45,7 +46,8 @@ var addChoice = function (_a) {
     elementId: elementId,
     customProperties: customProperties,
     placeholder: placeholder,
-    keyCode: keyCode
+    keyCode: keyCode,
+    dataset: dataset
   };
 };
 
@@ -133,7 +135,8 @@ var addItem = function (_a) {
       groupId = _a.groupId,
       customProperties = _a.customProperties,
       placeholder = _a.placeholder,
-      keyCode = _a.keyCode;
+      keyCode = _a.keyCode,
+      dataset = _a.dataset;
   return {
     type: constants_1.ACTION_TYPES.ADD_ITEM,
     value: value,
@@ -143,7 +146,8 @@ var addItem = function (_a) {
     groupId: groupId,
     customProperties: customProperties,
     placeholder: placeholder,
-    keyCode: keyCode
+    keyCode: keyCode,
+    dataset: dataset
   };
 };
 
@@ -393,6 +397,16 @@ function () {
 
     if (this.passedElement.options) {
       this.passedElement.options.forEach(function (option) {
+        var newDataset = {};
+
+        if (_this.config.preserveOptionDataset && option.dataset) {
+          Object.keys(option.dataset).forEach(function (key) {
+            if (key !== 'customProperties') {
+              newDataset[key] = option.dataset[key];
+            }
+          });
+        }
+
         _this._presetChoices.push({
           value: option.value,
           label: option.innerHTML,
@@ -401,9 +415,10 @@ function () {
           /* || option.parentNode.disabled */
           ,
           placeholder: option.value === '' || option.hasAttribute('placeholder'),
-          customProperties: option.dataset['customProperties']
+          customProperties: option.dataset['customProperties'],
+          dataset: newDataset
         });
-      });
+      }, this);
     }
 
     this._render = this._render.bind(this);
@@ -904,7 +919,8 @@ function () {
           isSelected: !!choice.selected,
           isDisabled: !!choice.disabled,
           placeholder: !!choice.placeholder,
-          customProperties: choice.customProperties
+          customProperties: choice.customProperties,
+          dataset: choice.dataset
         });
       }
     });
@@ -1302,7 +1318,8 @@ function () {
           groupId: choice.groupId,
           customProperties: choice.customProperties,
           placeholder: choice.placeholder,
-          keyCode: choice.keyCode
+          keyCode: choice.keyCode,
+          dataset: choice.dataset
         });
 
         this._triggerChange(choice.value);
@@ -2035,7 +2052,9 @@ function () {
         _f = _a.placeholder,
         placeholder = _f === void 0 ? false : _f,
         _g = _a.keyCode,
-        keyCode = _g === void 0 ? -1 : _g;
+        keyCode = _g === void 0 ? -1 : _g,
+        _h = _a.dataset,
+        dataset = _h === void 0 ? {} : _h;
     var passedValue = typeof value === 'string' ? value.trim() : value;
     var items = this._store.items;
     var passedLabel = label || passedValue;
@@ -2060,7 +2079,8 @@ function () {
       groupId: groupId,
       customProperties: customProperties,
       placeholder: placeholder,
-      keyCode: keyCode
+      keyCode: keyCode,
+      dataset: dataset
     }));
 
     if (this._isSelectOneElement) {
@@ -2074,7 +2094,8 @@ function () {
       label: passedLabel,
       customProperties: customProperties,
       groupValue: group && group.value ? group.value : null,
-      keyCode: keyCode
+      keyCode: keyCode,
+      dataset: dataset
     });
   };
 
@@ -2117,7 +2138,9 @@ function () {
         _g = _a.placeholder,
         placeholder = _g === void 0 ? false : _g,
         _h = _a.keyCode,
-        keyCode = _h === void 0 ? -1 : _h;
+        keyCode = _h === void 0 ? -1 : _h,
+        _j = _a.dataset,
+        dataset = _j === void 0 ? {} : _j;
 
     if (typeof value === 'undefined' || value === null) {
       return;
@@ -2138,7 +2161,8 @@ function () {
       disabled: isDisabled,
       customProperties: customProperties,
       placeholder: placeholder,
-      keyCode: keyCode
+      keyCode: keyCode,
+      dataset: dataset
     }));
 
     if (isSelected) {
@@ -2148,7 +2172,8 @@ function () {
         choiceId: choiceId,
         customProperties: customProperties,
         placeholder: placeholder,
-        keyCode: keyCode
+        keyCode: keyCode,
+        dataset: dataset
       });
     }
   };
@@ -2184,7 +2209,8 @@ function () {
           isDisabled: isOptDisabled,
           groupId: groupId,
           customProperties: choice.customProperties,
-          placeholder: choice.placeholder
+          placeholder: choice.placeholder,
+          dataset: choice.dataset
         });
       };
 
@@ -2372,7 +2398,8 @@ function () {
             isSelected: !!isSelected,
             isDisabled: !!isDisabled,
             placeholder: !!placeholder,
-            customProperties: customProperties
+            customProperties: customProperties,
+            dataset: choice.dataset
           });
         }
       } else {
@@ -2382,7 +2409,8 @@ function () {
           isSelected: !!choice.selected,
           isDisabled: !!choice.disabled,
           placeholder: !!choice.placeholder,
-          customProperties: customProperties
+          customProperties: customProperties,
+          dataset: choice.dataset
         });
       }
     });
@@ -2398,7 +2426,8 @@ function () {
           label: item.label,
           choiceId: item.id,
           customProperties: item.customProperties,
-          placeholder: item.placeholder
+          placeholder: item.placeholder,
+          dataset: item.dataset
         });
       }
 
@@ -2429,7 +2458,8 @@ function () {
             isSelected: true,
             isDisabled: false,
             customProperties: item.customProperties,
-            placeholder: item.placeholder
+            placeholder: item.placeholder,
+            dataset: item.dataset
           });
         } else {
           _this._addItem({
@@ -2437,7 +2467,8 @@ function () {
             label: item.label,
             choiceId: item.id,
             customProperties: item.customProperties,
-            placeholder: item.placeholder
+            placeholder: item.placeholder,
+            dataset: item.dataset
           });
         }
       },
@@ -2476,7 +2507,8 @@ function () {
         groupId: foundChoice.groupId,
         customProperties: foundChoice.customProperties,
         placeholder: foundChoice.placeholder,
-        keyCode: foundChoice.keyCode
+        keyCode: foundChoice.keyCode,
+        dataset: foundChoice.dataset
       });
     }
   };
@@ -4031,7 +4063,8 @@ function choices(state, action) {
           active: true,
           score: 9999,
           customProperties: addChoiceAction.customProperties,
-          placeholder: addChoiceAction.placeholder || false
+          placeholder: addChoiceAction.placeholder || false,
+          dataset: addChoiceAction.dataset
         };
         /*
           A disabled choice appears in the choice dropdown but cannot be selected
@@ -4293,7 +4326,8 @@ function items(state, action) {
           highlighted: false,
           customProperties: addItemAction.customProperties,
           placeholder: addItemAction.placeholder || false,
-          keyCode: null
+          keyCode: null,
+          dataset: addItemAction.dataset
         }], false);
 
         return newState.map(function (obj) {
@@ -4883,8 +4917,15 @@ var templates = {
         value = _a.value,
         customProperties = _a.customProperties,
         active = _a.active,
-        disabled = _a.disabled;
+        disabled = _a.disabled,
+        dataset = _a.dataset;
     var opt = new Option(label, value, false, active);
+
+    if (dataset) {
+      Object.keys(dataset).forEach(function (key) {
+        opt.dataset[key] = dataset[key];
+      });
+    }
 
     if (customProperties) {
       opt.dataset.customProperties = "".concat(customProperties);
@@ -7596,7 +7637,7 @@ if (false) {}
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -7610,14 +7651,14 @@ if (false) {}
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	!function() {
@@ -7630,7 +7671,7 @@ if (false) {}
 /******/ 			return getter;
 /******/ 		};
 /******/ 	}();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
@@ -7642,12 +7683,12 @@ if (false) {}
 /******/ 			}
 /******/ 		};
 /******/ 	}();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	!function() {
 /******/ 		// define __esModule on exports
@@ -7658,7 +7699,7 @@ if (false) {}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	}();
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
