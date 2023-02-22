@@ -181,6 +181,18 @@ export const diff = (
   return aKeys.filter((i) => bKeys.indexOf(i) < 0);
 };
 
+export const parseCustomProperties = (customProperties): any => {
+  if (typeof customProperties !== 'undefined') {
+    try {
+      return JSON.parse(customProperties);
+    } catch (e) {
+      return customProperties;
+    }
+  }
+
+  return {};
+};
+
 export const decodeHTMLSpecialCharacters = (text: string): string => {
   const map = {
     '&amp;': '&',
