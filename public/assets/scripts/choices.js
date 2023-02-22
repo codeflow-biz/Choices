@@ -1,4 +1,4 @@
-/*! choices.js v10.1.0 | © 2022 Josh Johnson | https://github.com/jshjohnson/Choices#readme */
+/*! choices.js v10.1.0 | © 2023 Josh Johnson | https://github.com/jshjohnson/Choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2071,6 +2071,10 @@ function () {
       passedValue += this.config.appendValue.toString();
     }
 
+    if (this.config.decodeHTMLSpecialChars) {
+      passedLabel = (0, utils_1.decodeHTMLSpecialCharacters)(passedLabel);
+    }
+
     this._store.dispatch((0, items_1.addItem)({
       value: passedValue,
       label: passedLabel,
@@ -2151,6 +2155,10 @@ function () {
     var choiceLabel = label || value;
     var choiceId = choices ? choices.length + 1 : 1;
     var choiceElementId = "".concat(this._baseId, "-").concat(this._idNames.itemChoice, "-").concat(choiceId);
+
+    if (this.config.decodeHTMLSpecialChars) {
+      choiceLabel = (0, utils_1.decodeHTMLSpecialCharacters)(choiceLabel);
+    }
 
     this._store.dispatch((0, choices_1.addChoice)({
       id: choiceId,

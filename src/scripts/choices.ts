@@ -37,6 +37,7 @@ import { PassedElement } from './interfaces/passed-element';
 import { State } from './interfaces/state';
 
 import {
+  decodeHTMLSpecialCharacters,
   diff,
   existsInArray,
   generateId,
@@ -45,8 +46,8 @@ import {
   isScrolledIntoView,
   isType,
   sortByScore,
-  strToEl,
-} from './lib/utils';
+  strToEl
+} from "./lib/utils";
 import { defaultState } from './reducers';
 import Store from './store/store';
 import templates from './templates';
@@ -1964,7 +1965,7 @@ class Choices implements Choices {
     let passedValue = typeof value === 'string' ? value.trim() : value;
 
     const { items } = this._store;
-    const passedLabel = label || passedValue;
+    let passedLabel = label || passedValue;
     const passedOptionId = choiceId || -1;
     const group = groupId >= 0 ? this._store.getGroupById(groupId) : null;
     const id = items ? items.length + 1 : 1;
@@ -1977,6 +1978,10 @@ class Choices implements Choices {
     // If an appended value has been passed, append it
     if (this.config.appendValue) {
       passedValue += this.config.appendValue.toString();
+    }
+
+    if (this.config.decodeHTMLSpecialChars) {
+      passedLabel = decodeHTMLSpecialCharacters(passedLabel);
     }
 
     this._store.dispatch(
@@ -2055,9 +2060,13 @@ class Choices implements Choices {
 
     // Generate unique id
     const { choices } = this._store;
-    const choiceLabel = label || value;
+    let choiceLabel = label || value;
     const choiceId = choices ? choices.length + 1 : 1;
     const choiceElementId = `${this._baseId}-${this._idNames.itemChoice}-${choiceId}`;
+
+    if (this.config.decodeHTMLSpecialChars) {
+      choiceLabel = decodeHTMLSpecialCharacters(choiceLabel);
+    }
 
     this._store.dispatch(
       addChoice({

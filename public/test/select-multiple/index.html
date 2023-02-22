@@ -86,6 +86,7 @@
             <option value="Choice 3">Choice 3</option>
             <option value="Choice 4">Choice 4</option>
           </select>
+          <button type="button" onclick="choicesInstance.removeActiveItems()">Click</button>
         </div>
 
         <div data-test-hook="disabled-choice">
@@ -378,6 +379,7 @@
       </div>
     </div>
     <script>
+      let choicesInstance = null;
       document.addEventListener('DOMContentLoaded', function() {
         const choicesBasic = new Choices('#choices-basic', {
           allowHTML: true,
@@ -395,7 +397,7 @@
             choicesBasic.enable();
           });
 
-        new Choices('#choices-remove-button', {
+        choicesInstance = new Choices('#choices-remove-button', {
           allowHTML: true,
           removeItemButton: true,
         });
