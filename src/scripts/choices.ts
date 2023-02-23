@@ -303,6 +303,7 @@ class Choices implements Choices {
           customProperties: parseCustomProperties(
             option.dataset.customProperties,
           ),
+          dataset: newDataset,
         });
       }, this);
     }

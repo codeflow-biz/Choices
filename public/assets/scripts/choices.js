@@ -345,7 +345,8 @@ var Choices = /** @class */function () {
           selected: !!option.selected,
           disabled: option.disabled /* || option.parentNode.disabled */,
           placeholder: option.value === '' || option.hasAttribute('placeholder'),
-          customProperties: (0, utils_1.parseCustomProperties)(option.dataset.customProperties)
+          customProperties: (0, utils_1.parseCustomProperties)(option.dataset.customProperties),
+          dataset: newDataset
         });
       }, this);
     }
